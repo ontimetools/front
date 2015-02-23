@@ -1,0 +1,98 @@
+{% extends '_layout/master.twig' %}
+
+{% block head_title %}
+    {% trans %}
+    Documents
+    {% endtrans %}
+{% endblock %}
+
+{% block contextual_menu %}
+    <p class="new">
+        <a href="{{ url('documents.new') }}" class="btn btn-primary btn-sm">
+            <i class="fa fa-fw fa-plus-circle"></i>
+            {% trans %}New document{% endtrans %}
+        </a>
+    </p>
+{% endblock %}
+
+{% block main_content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>{% trans %}Documents{% endtrans %}</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped datatable">
+                        <thead>
+                        <tr>
+                            <th>{% trans %}Name{% endtrans %}</th>
+                            <th>{% trans %}Tags{% endtrans %}</th>
+                            <th>{% trans %}Type{% endtrans %}</th>
+                            <th>{% trans %}Status{% endtrans %}</th>
+                            <th>{% trans %}Due date{% endtrans %}</th>
+                            <th>{% trans %}Last update{% endtrans %}</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if documents is defined %}
+                            {% for document in documents %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ url('documents.read', {'id':document.getId()}) }}">
+                                            {{ document.getName() }}
+                                        </a>
+                                    </td>
+                                    <td>{{ document.getKeywords() }}</td>
+                                    <td>{{ document.getOtType() }}</td>
+                                    <td>{{ document.getOtStatus() }}</td>
+                                    <td>{{ document.getDateEnd()|date("Y/m/d") }}</td>
+                                    <td>{{ document.getDateUpdate()|date("Y/m/d H:i") }}</td>
+                                    <td class="actions">
+                                        <i class="fa fa-fw fa-{{ document.isPrivate() ? 'eye-slash' : 'eye' }}
+                                        text-{{ document.getOtAuthorId() == current_user.getId() ?
+                                        'danger' : 'primary' }}" data-toggle="tooltip"
+                                           title="{{ document.isPrivate() ? 'Private' : 'Public' }}"></i>
+                                        <a href="{{ url('documents.read', {'id':document.getId()}) }}"
+                                           data-toggle="tooltip"
+                                           title="{% trans %}Read{% endtrans %} {{ document.getName() }}">
+                                            <i class="fa fa-fw fa-book action"></i>
+                                        </a>
+                                        <a href="{{ url('documents.download', {'id':document.getId()}) }}"
+                                           data-toggle="tooltip"
+                                           title="{% trans %}Download{% endtrans %} {{ document.getName() }}
+                                           {% trans %}as a PDF{% endtrans %}">
+                                            <i class="fa fa-fw fa-cloud-download action"></i>
+                                        </a>
+                                        <a href="{{ url('documents.duplicate', {'id':document.getId()}) }}"
+                                           data-toggle="tooltip"
+                                           title="{% trans %}Duplicate{% endtrans %} {{ document.getName() }}">
+                                            <i class="fa fa-fw fa-files-o action"></i>
+                                        </a>
+                                        <a href="{{ url('documents.edit', {'id':document.getId()}) }}"
+                                           data-toggle="tooltip"
+                                           title="{% trans %}Edit{% endtrans %} {{ document.getName() }}">
+                                            <i class="fa fa-fw fa-edit action"></i>
+                                        </a>
+                                        <a href="{{ url('documents.delete', {'id':document.getId()}) }}"
+                                           data-toggle="modal" data-target=".modal">
+                                            <i class="fa fa-fw fa-trash-o action"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% include '_common/modal/confirm.twig'
+with {modal: {title:'Deleting document', message:'Are you sure you want to delete that document ?' }} %}
+{% endblock %}
+{% block style_block %}{% include '_common/css-datatable.twig' %}{% endblock %}
+{% block javascript_block %}
+    {% include '_common/js-datatable.twig' with {order:{id:5, way:'desc'}} %}
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends '_layout/master.twig' %}
+
+{% block head_title %}
+    {{ document.getName() }} -
+    {% trans %}
+    Documents
+    {% endtrans %}
+{% endblock %}
+
+{% block contextual_menu %}
+    <p class="new">
+        <a href="{{ url('documents.download', {'id':document.getId()}) }}" class="btn btn-primary btn-sm">
+            <i class="fa fa-fw fa-cloud-download"></i>
+            {% trans %}Download PDF{% endtrans %}
+        </a>
+        <a href="{{ url('documents.duplicate', {'id':document.getId()}) }}" class="btn btn-success btn-sm">
+            <i class="fa fa-fw fa-files-o"></i>
+            {% trans %}Duplicate{% endtrans %}
+        </a>
+        <a href="{{ url('documents.edit', {'id':document.getId()}) }}" class="btn btn-warning btn-sm">
+            <i class="fa fa-fw fa-edit"></i>
+            {% trans %}Edit{% endtrans %}
+        </a>
+        <a href="{{ url('documents.delete', {'id':document.getId()}) }}" class="btn btn-danger btn-sm">
+            <i class="fa fa-fw fa-trash"></i>
+            {% trans %}Delete{% endtrans %}
+        </a>
+        <a href="{{ url('documents') }}" class="btn btn-primary btn-sm">
+            <i class="fa fa-fw fa-angle-double-left"></i>
+            {% trans %}Back to list{% endtrans %}
+        </a>
+    </p>
+{% endblock %}
+
+{% block main_content %}
+<div class="row alternative document_header">
+    <div class="col-lg-10">
+        <h1>{{ document.getName() }}</h1>
+    </div>
+    <div class="col-lg-2">
+        <a data-toggle="collapse" href=".panel-collapse" aria-expanded="false" aria-controls=".panel-collapse">
+            {% trans %}Collapse / Uncollapse all{% endtrans %}
+        </a>
+    </div>
+</div>
+{% for entry in document.getEntries() %}
+    <div class="row alternative">
+        <div class="col-lg-12">
+            <div class="panel-group" id="entry_{{ entry.getId() }}" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a data-toggle="collapse" data-parent="#entry_{{ entry.getId() }}"
+                           href="#body_{{ entry.getId() }}"
+                           aria-expanded="true" aria-controls="entry_{{ entry.getId() }}">
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <h4>#{{ entry.getOtId() }} - {{ entry.getName() }}</h4>
+
+                                    <div class="short_description">{{ entry.getDescriptionShort() | raw }}</div>
+                                </div>
+                                <div class="col-lg-3 text-right">
+                                    <div class="col-lg-7">
+                                        <span class="label label-{{ entry.getStatus() }}">
+                                            <span class="col-lg-6 text-left">
+                                            {% trans %}Estimate{% endtrans %}
+                                            </span>
+                                            <span class="col-lg-6 text-right">
+                                                {{ entry.getEstimate().getFormated() | raw }}
+                                            </span>
+                                        </span>
+                                        <span class="label label-{{ entry.getStatus() }}">
+                                            <span class="col-lg-6 text-left">
+                                            {% trans %}Remaining{% endtrans %}
+                                            </span>
+                                            <span class="col-lg-6 text-right">
+                                                {{ entry.getRemaining().getFormated() | raw }}
+                                            </span>
+                                        </span>
+                                        <span class="label label-{{ entry.getStatus() }}">
+                                            <span class="col-lg-6 text-left">
+                                            {% trans %}Actual{% endtrans %}
+                                            </span>
+                                            <span class="col-lg-6 text-right">
+                                                {{ entry.getActual().getFormated() | raw }}
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <span class="label label-info">
+                                            <span class="col-lg-6 text-left">
+                                                <i class="fa fa-fw fa-laptop"></i>
+                                            </span>
+                                            <span class="col-lg-6 text-right">
+                                                {{ entry.getEstimateMenPrice().getFormated() | raw | number_format }}
+                                            </span>
+                                        </span>
+                                        <span class="label label-info">
+                                            <span class="col-lg-6 text-left">
+                                                <i class="fa fa-fw fa-briefcase"></i>
+                                            </span>
+                                            <span class="col-lg-6 text-right">
+                                                {{ entry.getEstimateManagementPrice().getFormated() | raw | number_format }}
+                                            </span>
+                                        </span>
+                                        <span class="label label-primary">
+                                            <span class="col-lg-6 text-left">
+                                                <i class="fa fa-fw fa-euro"></i>
+                                            </span>
+                                            <span class="col-lg-6 text-right">
+                                                {{ entry.getEstimateTotalPrice().getFormated() | raw | number_format }}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% if entry.getDescriptionComplete()|length>0 %}
+                        <div class="panel-collapse collapse" id="body_{{ entry.getId() }}">
+                            <div class="panel-body">
+                                <div class="long_description">{{ entry.getDescriptionComplete() | raw }}</div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{% include '_common/modal/confirm.twig'
+with {modal: {title:'Deleting document', message:'Are you sure you want to delete that document ?' }} %}
+{% endblock %}
+{% block style_block %}{% include '_common/css-datatable.twig' %}{% endblock %}
+{% block javascript_block %}
+    {% include '_common/js-datatable.twig' with {order:{id:5, way:'desc' }} %}
+    {% endblock %}

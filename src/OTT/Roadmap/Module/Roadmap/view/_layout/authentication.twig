@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block head_title %}{% endblock %} - Raggam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/components-font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Open+Sans+Condensed:300' rel='stylesheet'
+          type='text/css'>
+    <link href="/template/custom/css/_common/bootstrap-theme.css" rel="stylesheet">
+    <link href="/template/custom/css/_common/main.css" rel="stylesheet">
+    <link href="/template/custom/css/authentication/main.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/template/custom/img/_common/favicon.png">
+</head>
+<body>
+<main>
+    <div class="col-xs-12 col-lg-4 col-lg-offset-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="{{ url('index') }}">
+                    <h2>Raggam</h2>
+                </a>
+            </div>
+            <div class="panel-body">
+                {% block main_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

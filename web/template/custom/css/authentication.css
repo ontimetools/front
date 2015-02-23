@@ -1,0 +1,33 @@
+/*********************************************************************************************************************/
+html {
+    background-color: #E0E2E4;
+}
+
+body {
+    font-size: 13px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    background: none
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Open Sans Condensed", "HelveticaNeue", Arial, sans-serif;
+}
+
+/*********************************************************************************************************************/
+
+main .panel {
+    margin-top: 15px;
+}
+
+main .panel .panel-heading h2 {
+    background-image: url(../img/_common/logo-web.png);
+    width: 130px;
+    height: 30px;
+    overflow: hidden;
+    text-indent: -1000em;
+    padding: 0;
+    margin: 8px 0 0;
+    display: inline-block;
+}
+
+/*********************************************************************************************************************/

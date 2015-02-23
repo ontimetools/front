@@ -1,0 +1,136 @@
+conf.routes.roadmap:
+  index.home:
+    pattern:  /
+    defaults: { _controller: 'IndexController::indexAction' }
+    method: GET
+  index:
+    pattern:  /
+    defaults: { _controller: 'IndexController::indexAction' }
+    method: GET
+#################################################################
+  error404:
+    pattern:  /404
+    defaults: { _controller: 'ErrorController::error404Action' }
+    method: GET
+#################################################################
+  account:
+    pattern:  /account
+    defaults: { _controller: 'AccountController::accountAction' }
+    method: GET
+  account.edit:
+    pattern:  /account/edit
+    defaults: { _controller: 'AccountController::accountEditAction' }
+    method: POST
+  account.delete:
+    pattern:  /account/delete
+    defaults: { _controller: 'AccountController::accountDeleteAction' }
+    method: GET
+#################################################################
+  documents:
+    pattern:  /documents
+    defaults: { _controller: 'DocumentController::listAction' }
+    method: GET
+  documents.latest:
+    pattern:  /documents/latest
+    defaults: { _controller: 'DocumentController::listAction' }
+    method: GET
+  documents.favourite:
+    pattern:  /documents/favourite
+    defaults: { _controller: 'DocumentController::listAction' }
+    method: GET
+  documents.edit:
+    pattern:  /document/edit/{id}
+    defaults: { _controller: 'DocumentController::editAction' }
+    method: GET
+  documents.editPost:
+    pattern:  /document/edit/{id}
+    defaults: { _controller: 'DocumentController::editPostAction' }
+    method: POST
+  documents.download:
+    pattern:  /document/download/{id}
+    defaults: { _controller: 'DocumentController::indexAction' }
+    method: GET
+  documents.delete:
+    pattern:  /document/delete/{id}
+    defaults: { _controller: 'DocumentController::deleteAction' }
+    method: GET
+  documents.duplicate:
+    pattern:  /document/duplicate/{id}
+    defaults: { _controller: 'DocumentController::duplicateAction' }
+    method: GET
+  documents.new:
+    pattern:  /document/new
+    defaults: { _controller: 'DocumentController::createAction' }
+    method: GET
+  documents.newPost:
+    pattern:  /document/new
+    defaults: { _controller: 'DocumentController::createPostAction' }
+    method: POST
+  documents.read:
+    pattern:  /document/{id}
+    defaults: { _controller: 'DocumentController::readAction' }
+    method: GET
+#################################################################
+  projects.get:
+    pattern:  /ajax-projects/
+    defaults: { _controller: 'DocumentController::getProjectsAction' }
+    method: GET
+  releases.get:
+    pattern:  /ajax-releases/
+    defaults: { _controller: 'DocumentController::getReleasesAction' }
+    method: GET
+  settings.get:
+    pattern:  /ajax-settings/
+    defaults: { _controller: 'DocumentController::getSettingsAction' }
+    method: GET
+#################################################################
+  settings:
+    pattern:  /settings
+    defaults: { _controller: 'SettingController::listAction' }
+    method: GET
+  settings.delete:
+    pattern:  /setting/delete/{id}
+    defaults: { _controller: 'SettingController::deleteAction' }
+    method: GET
+  settings.new:
+    pattern:  /setting/new
+    defaults: { _controller: 'SettingController::createAction' }
+    method: GET
+  settings.newPost:
+    pattern:  /setting/new
+    defaults: { _controller: 'SettingController::createPostAction' }
+    method: POST
+  settings.duplicate:
+    pattern:  /setting/duplicate/{id}
+    defaults: { _controller: 'SettingController::duplicateAction' }
+    method: GET
+  settings.edit:
+    pattern:  /setting/{id}
+    defaults: { _controller: 'SettingController::editAction' }
+    method: GET
+  settings.editPost:
+    pattern:  /setting/{id}
+    defaults: { _controller: 'SettingController::editPostAction' }
+    method: POST
+#################################################################
+  login:
+    pattern:  /login
+    defaults: { _controller: 'AuthenticationController::loginAction' }
+    method: GET
+  loginPost:
+    pattern:  /login
+    defaults: { _controller: 'AuthenticationController::loginPostAction' }
+    method: POST
+  signin:
+    pattern:  /signin
+    defaults: { _controller: 'AuthenticationController::signinAction' }
+    method: GET
+  signinPost:
+    pattern:  /signin
+    defaults: { _controller: 'AuthenticationController::signinPostAction' }
+    method: POST
+  logout:
+    pattern:  /logout
+    defaults: { _controller: 'AuthenticationController::logoutAction' }
+    method: GET
+#################################################################

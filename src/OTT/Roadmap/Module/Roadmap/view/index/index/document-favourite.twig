@@ -1,0 +1,33 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>{% trans %}Favourite documents{% endtrans %} <i class="fa fa-fw fa-star"></i></h3>
+
+        <p class="right hidden-xs">
+            <a href="{{ url('documents') }}" class="btn btn-xs btn-info">
+                <i class="fa fa-fw fa-eye"></i>
+                {% trans %}See all{% endtrans %}
+            </a>
+        </p>
+    </div>
+    <div class="panel-body">
+        {% if favourite_documents is defined %}
+            <ul>
+                {% for document in favourite_documents %}
+                    {% include 'index/index/document-row.twig' with {document:document} %}
+                {% endfor %}
+            </ul>
+            <p class="browse">
+                <a href="{{ url('documents') }}" class="btn btn-info btn-sm">
+                    {% trans %}Browse all{% endtrans %}
+                    <i class="fa fa-fw fa-ellipsis-h"></i>
+                </a>
+            </p>
+        {% else %}
+            <p>
+                {% trans %}
+                There is no favourite document associated to your account
+                {% endtrans %}
+            </p>
+        {% endif %}
+    </div>
+</div>

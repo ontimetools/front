@@ -1,0 +1,355 @@
+{% set setting_is_defined = setting is defined %}
+<form id="setting_form" class="form-horizontal" method="post"
+      action="{{ setting_is_defined ? url('settings.editPost', {id:setting.getId()}) : url('settings.newPost') }}">
+{% if parent_settings is defined %}
+    <div class="form-group">
+        <label for="setting_id" class="col-xs-12 col-lg-3 control-label">
+            {% trans %}Inherit from{% endtrans %}
+        </label>
+
+        <p class="col-xs-12 col-lg-7">
+            <select name="setting_id" id="setting_id">
+                <option value="">{% trans %}None{% endtrans %}</option>
+                {% set id_parent = setting.getParentSettingId() is defined ? setting.getParentSettingId() : 0 %}
+                {% for parent_setting in parent_settings %}
+                    <option value="{{ parent_setting.getId() }}"
+                            {{ (parent_setting.getId() == id_parent) ? 'selected="selected"' : '' }}>
+                        {{ parent_setting.getName() }}
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+    </div>
+{% endif %}
+<div class="form-group">
+    <label for="name" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Name{% endtrans %}
+    </label>
+
+    <p class="col-xs-12 col-lg-7">
+        <input type="text" id="name" name="name" class="form-control"
+               value="{{ setting_is_defined ? setting.getName() : '' }}" required/>
+    </p>
+</div>
+{#--------------------------------------------------------------------------------------------------------------------#}
+<hr/>
+{#--------------------------------------------------------------------------------------------------------------------#}
+<div class="form-group">
+    <p class="col-xs-6 col-xs-offset-6 col-lg-2 col-lg-offset-10 text-center inherit-block">
+        <strong class="label label-info">{% trans %}Inherit ?{% endtrans %}</strong>
+    </p>
+</div>
+<div class="form-group">
+    <label for="project_security_rate" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Security rate{% endtrans %}
+        <i class="fa fa-fw fa-info-circle" data-toggle="tooltip"
+           title="{% trans %}Will add X% to your estimates{% endtrans %}"></i>
+    </label>
+
+
+    <div class="col-xs-6 col-lg-7">
+        <p class="input-group">
+            <input type="text" id="project_security_rate" name="project_security_rate" class="form-control"
+                   value="{{ (setting.getProjectSecurityRate() is defined) ? setting.getProjectSecurityRate() : '' }}"
+                   data-type="inheritable"
+                    />
+            <span class="input-group-addon" id="basic-addon2">%</span>
+        </p>
+    </div>
+
+    <p class="col-xs-6 col-lg-2 text-center inherit-block" data-target="project_security_rate">
+        <input type="radio" data-type="inherit-handler" name="inherit[project_security_rate]" value="1"
+               id="project_security_rate_inherit_true"/>
+        <label for="project_security_rate_inherit_true" class="control-label">{% trans %}Yes{% endtrans %}</label>
+
+        <input type="radio" data-type="inherit-handler" name="inherit[project_security_rate]" value="0"
+               id="project_security_rate_inherit_false" checked="checked"/>
+        <label for="project_security_rate_inherit_false" class="control-label">{% trans %}No{% endtrans %}</label>
+    </p>
+</div>
+<div class="form-group">
+    <label for="project_currency" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Currency{% endtrans %}
+    </label>
+
+    <p class="col-xs-6 col-lg-7">
+        <select name="project_currency" id="project_currency">
+            <option value="&euro;">&euro; - Euro (default)</option>
+            <option value="$">$ - USD</option>
+            <option value="&pound;">&pound; - Pound</option>
+            <option value="&yen;">&yen; - Yen</option>
+        </select>
+    </p>
+</div>
+<div class="form-group">
+    <p class="col-xs-6 col-xs-offset-6 col-lg-2 col-lg-offset-10 text-center inherit-block">
+        <strong class="label label-info">{% trans %}Inherit ?{% endtrans %}</strong>
+    </p>
+</div>
+<div class="form-group">
+    <label for="men_day_price" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Team members price per day{% endtrans %}
+    </label>
+
+    <div class="col-xs-6 col-lg-7">
+        <p class="input-group">
+            <input type="text" id="men_day_price" name="men_day_price" class="form-control"
+                   value="{{ (setting.getManagementDayPrice() is defined) ? setting.getManagementDayPrice() : '' }}"
+                   data-type="inheritable"
+                    />
+            <span class="input-group-addon" id="basic-addon2">{% trans %}per day{% endtrans %}</span>
+        </p>
+    </div>
+
+    <p class="col-xs-6 col-lg-2 text-center inherit-block" data-target="men_day_price">
+        <input type="radio" data-type="inherit-handler" name="inherit[men_day_price]" value="1"
+               id="men_day_price_inherit_true"/>
+        <label for="men_day_price_inherit_true" class="control-label">{% trans %}Yes{% endtrans %}</label>
+        <input type="radio" data-type="inherit-handler" name="inherit[men_day_price]" value="0"
+               id="men_day_price_inherit_false"
+               checked="checked"/>
+        <label for="men_day_price_inherit_false" class="control-label">{% trans %}No{% endtrans %}</label>
+    </p>
+</div>
+{#<div class="form-group">
+    <label for="men_availability_rate" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Team members availability{% endtrans %}
+        <i class="fa fa-fw fa-info-circle" data-toggle="tooltip"
+           title="{% trans %}Used to calculate the availability per iteration{% endtrans %}"></i>
+    </label>
+
+    <div class="col-xs-6 col-lg-7">
+        <p class="input-group">
+            <input type="text" id="men_availability_rate" name="men_availability_rate" class="form-control"
+                   value="{{ (setting.getManagementAvailabilityRate() is defined) ?
+                   setting.getManagementAvailabilityRate() : '' }}"
+                   data-type="inheritable"
+                    />
+            <span class="input-group-addon" id="basic-addon2">% {% trans %}per sprint{% endtrans %}</span>
+        </p>
+    </div>
+
+    <p class="col-xs-6 col-lg-2 text-center inherit-block" data-target="men_availability_rate">
+        <input type="radio" data-type="inherit-handler" name="inherit[men_availability_rate]" value="1"
+               id="men_availability_rate_inherit_true"/>
+        <label for="men_availability_rate_inherit_true" class="control-label">{% trans %}Yes{% endtrans %}</label>
+
+        <input type="radio" data-type="inherit-handler" name="inherit[men_availability_rate]" value="0"
+               id="men_availability_rate_inherit_false" checked="checked"/>
+        <label for="men_availability_rate_inherit_false" class="control-label">{% trans %}No{% endtrans %}</label>
+    </p>
+</div>
+<div class="form-group">
+    <p class="col-xs-12 col-lg-7 col-lg-offset-3 text-center">
+        OR
+    </p>
+</div>
+<div class="form-group">
+    <label for="men_availability_absolute" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Team members availability{% endtrans %}
+        <i class="fa fa-fw fa-info-circle" data-toggle="tooltip"
+           title="{% trans %}Define the availability per iteration (if defined, has priority on rate){% endtrans %}">
+        </i>
+    </label>
+
+    <div class="col-xs-6 col-lg-7">
+        <p class="input-group">
+            <input type="text" id="men_availability_absolute" name="men_availability_absolute" class="form-control"
+                   value="{{ (setting.getManagementAvailabilityRate() is defined) ?
+                   setting.getManagementAvailabilityRate() : '' }}" data-type="inheritable"/>
+            <span class="input-group-addon" id="basic-addon2">{% trans %}days per sprint{% endtrans %}</span>
+        </p>
+    </div>
+
+    <p class="col-xs-6 col-lg-2 text-center inherit-block" data-target="men_availability_absolute">
+        <input type="radio" data-type="inherit-handler" name="inherit[men_availability_absolute]" value="1"
+               id="men_availability_absolute_inherit_true"/>
+        <label for="men_availability_absolute_inherit_true" class="control-label">{% trans %}Yes{% endtrans %}</label>
+
+        <input type="radio" data-type="inherit-handler" name="inherit[men_availability_absolute]" value="0"
+               id="men_availability_absolute_inherit_false" checked="checked"/>
+        <label for="men_availability_absolute_inherit_false" class="control-label">{% trans %}No{% endtrans %}</label>
+    </p>
+</div>#}
+<div class="form-group">
+    <p class="col-xs-6 col-xs-offset-6 col-lg-2 col-lg-offset-10 text-center inherit-block">
+        <strong class="label label-info">{% trans %}Inherit ?{% endtrans %}</strong>
+    </p>
+</div>
+<div class="form-group">
+    <label for="management_day_price" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Management price per day{% endtrans %}
+    </label>
+
+    <div class="col-xs-6 col-lg-7">
+        <p class="input-group">
+            <input type="text" id="management_day_price" name="management_day_price" class="form-control"
+                   value="{{ (setting.getManagementDayPrice() is defined) ? setting.getManagementDayPrice() : '' }}"
+                   data-type="inheritable"/>
+            <span class="input-group-addon" id="basic-addon2">{% trans %}per day{% endtrans %}</span>
+        </p>
+    </div>
+
+    <p class="col-xs-6 col-lg-2 text-center inherit-block" data-target="management_day_price">
+        <input type="radio" data-type="inherit-handler" name="inherit[management_day_price]" value="1"
+               id="management_day_price_inherit_true"/>
+        <label for="management_day_price_inherit_true" class="control-label">{% trans %}Yes{% endtrans %}</label>
+        <input type="radio" data-type="inherit-handler" name="inherit[management_day_price]" value="0"
+               id="management_day_price_inherit_false"
+               checked="checked"/>
+        <label for="management_day_price_inherit_false" class="control-label">{% trans %}No{% endtrans %}</label>
+    </p>
+</div>
+{#--------------------------------------------------------------------------------------------------------------------#}
+<hr/>
+{#--------------------------------------------------------------------------------------------------------------------#}
+<div class="form-group">
+    <label for="management_availability_rate" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Management availability{% endtrans %}
+        <i class="fa fa-fw fa-info-circle" data-toggle="tooltip"
+           title="{% trans %}Used to calculate the availability per iteration based on estimates{% endtrans %}"></i>
+    </label>
+
+    <div class="col-xs-6 col-lg-7">
+        <p class="input-group">
+            <input type="text" id="management_availability_rate" name="management_availability_rate"
+                   class="form-control"
+                   value="{{ (setting.getManagementAvailabilityRate() is defined) ?
+                   setting.getManagementAvailabilityRate() : '' }}"
+                   data-type="inheritable"/>
+            <span class="input-group-addon" id="basic-addon2">% {% trans %}per sprint{% endtrans %}</span>
+        </p>
+    </div>
+
+    <p class="col-xs-6 col-lg-2 text-center inherit-block" data-target="management_availability_rate">
+        <input type="radio" data-type="inherit-handler" name="inherit[management_availability_rate]" value="1"
+               id="management_availability_rate_inherit_true"/>
+        <label for="management_availability_rate_inherit_true" class="control-label">{% trans %}
+            Yes{% endtrans %}</label>
+
+        <input type="radio" data-type="inherit-handler" name="inherit[management_availability_rate]" value="0"
+               id="management_availability_rate_inherit_false" checked="checked"/>
+        <label for="management_availability_rate_inherit_false" class="control-label">{% trans %}
+            No{% endtrans %}</label>
+    </p>
+</div>
+<div class="form-group">
+    <p class="col-xs-12 col-lg-7 col-lg-offset-3 text-center">
+        OR
+    </p>
+</div>
+<div class="form-group">
+    <label for="management_availability_absolute" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Management availability{% endtrans %}
+        <i class="fa fa-fw fa-info-circle" data-toggle="tooltip"
+           title="{% trans %}Define the availability per iteration (if defined, has priority on rate){% endtrans %}">
+        </i>
+    </label>
+
+    <div class="col-xs-6 col-lg-7">
+        <p class="input-group">
+            <input type="text" id="management_availability_absolute" name="management_availability_absolute"
+                   class="form-control"
+                   value="{{ (setting.getManagementAvailabilityRate() is defined) ?
+                   setting.getManagementAvailabilityRate() : '' }}" data-type="inheritable"/>
+            <span class="input-group-addon" id="basic-addon2">{% trans %}days per sprint{% endtrans %}</span>
+        </p>
+    </div>
+
+    <p class="col-xs-6 col-lg-2 text-center inherit-block" data-target="management_availability_absolute">
+        <input type="radio" data-type="inherit-handler" name="inherit[management_availability_absolute]" value="1"
+               id="management_availability_absolute_inherit_true"/>
+        <label for="management_availability_absolute_inherit_true" class="control-label">{% trans %}
+            Yes{% endtrans %}</label>
+
+        <input type="radio" data-type="inherit-handler" name="inherit[management_availability_absolute]" value="0"
+               id="management_availability_absolute_inherit_false" checked="checked"/>
+        <label for="management_availability_absolute_inherit_false" class="control-label">{% trans %}
+            No{% endtrans %}</label>
+    </p>
+</div>
+{#--------------------------------------------------------------------------------------------------------------------#}
+<hr/>
+{#--------------------------------------------------------------------------------------------------------------------#}
+<div class="form-group">
+    <p class="col-xs-6 col-xs-offset-6 col-lg-2 col-lg-offset-10 text-center inherit-block">
+        <strong class="label label-info">{% trans %}Inherit ?{% endtrans %}</strong>
+    </p>
+</div>
+<div class="form-group">
+    <label for="display_men_price" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Display team members prices ?{% endtrans %}
+    </label>
+
+    <p class="col-xs-6 col-lg-7">
+        <input type="checkbox" id="display_men_price" name="display_men_price" value="1" data-type="inheritable"
+                {{ (setting.isDisplayMenPrice() is defined) ? 'checked="checked"' : '' }} />
+    </p>
+
+    <p class="col-xs-6 col-lg-2 text-center inherit-block" data-target="display_men_price">
+        <input type="radio" data-type="inherit-handler" name="inherit[display_men_price]" value="1"
+               id="display_men_price_inherit_true"/>
+        <label for="display_men_price_inherit_true" class="control-label">{% trans %}Yes{% endtrans %}</label>
+        <input type="radio" data-type="inherit-handler" name="inherit[display_men_price]" value="0"
+               id="display_men_price_inherit_false"
+               checked="checked"/>
+        <label for="display_men_price_inherit_false" class="control-label">{% trans %}No{% endtrans %}</label>
+    </p>
+</div>
+<div class="form-group">
+    <label for="display_management_price" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Display management prices ?{% endtrans %}
+    </label>
+
+    <p class="col-xs-6 col-lg-7">
+        <input type="checkbox" id="display_management_price" name="display_management_price" value="1"
+               data-type="inheritable"
+                {{ (setting.isDisplayManagementPrice() is defined) ? 'checked="checked"' : '' }} />
+    </p>
+
+    <p class="col-xs-6 col-lg-2 text-center inherit-block" data-target="display_management_price">
+        <input type="radio" data-type="inherit-handler" name="inherit[display_management_price]" value="1"
+               id="display_management_price_inherit_true"/>
+        <label for="display_management_price_inherit_true" class="control-label">{% trans %}Yes{% endtrans %}</label>
+        <input type="radio" data-type="inherit-handler" name="inherit[display_management_price]" value="0"
+               id="display_management_price_inherit_false" checked="checked"/>
+        <label for="display_management_price_inherit_false" class="control-label">{% trans %}No{% endtrans %}</label>
+    </p>
+</div>
+<div class="form-group">
+    <label for="display_dates" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Display dates ?{% endtrans %}
+    </label>
+
+    <p class="col-xs-6 col-lg-7">
+        <input type="checkbox" id="display_dates" name="display_dates" value="1" data-type="inheritable"
+                {{ (setting.isDisplayDates() is defined) ? 'checked="checked"' : '' }} />
+    </p>
+
+    <p class="col-xs-6 col-lg-2 text-center inherit-block" data-target="display_dates">
+        <input type="radio" data-type="inherit-handler" name="inherit[display_dates]" value="1"
+               id="display_dates_inherit_true"/>
+        <label for="display_dates_inherit_true" class="control-label">{% trans %}Yes{% endtrans %}</label>
+        <input type="radio" data-type="inherit-handler" name="inherit[display_dates]" value="0"
+               id="display_dates_inherit_false" checked="checked"/>
+        <label for="display_dates_inherit_false" class="control-label">{% trans %}No{% endtrans %}</label>
+    </p>
+</div>
+{#--------------------------------------------------------------------------------------------------------------------#}
+<hr/>
+{#--------------------------------------------------------------------------------------------------------------------#}
+<div class="form-group">
+    {% if setting_is_defined %}
+        {% include '_common/form/buttons.twig' with {cancel_url:url('settings'),
+        delete_route:url('settings.delete', {id:setting.getId()})} %}
+    {% else %}
+        {% include '_common/form/buttons.twig' with {cancel_url:url('settings')} %}
+    {% endif %}
+</div>
+</form>
+{% if setting_is_defined %}
+    {% include '_common/last-update.twig' with {date:setting.getDateUpdate(), user_id:setting.getUpdaterId()} %}
+
+    {% include '_common/modal/confirm.twig' with {modal: {
+    title:'Deleting setting', message:'Are you sure you want to delete that setting ?' }} %}
+{% endif %}

@@ -1,0 +1,104 @@
+/*********************************************************************************************************************/
+html {
+    background-color: #E0E2E4;
+}
+
+body {
+    font-size: 13px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    background: none
+}
+
+a,
+a:link,
+a:visited {
+    color: #E9E9EB;
+    outline: 0;
+    text-decoration: none;
+}
+
+.alternative a,
+.alternative a:link,
+.alternative a:visited {
+    color: #4a494d;;
+}
+
+a:hover,
+a:active,
+.current a {
+    color: #FCBD2C;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Open Sans Condensed", "HelveticaNeue", Arial, sans-serif;
+}
+
+/*********************************************************************************************************************/
+header {
+    height: 107px;
+    margin-bottom: 10px
+}
+
+header #secondary {
+    background-color: #FFFFFF;
+    color: #4A494D;
+    padding: 10px 0;
+    overflow: hidden;
+}
+
+header #secondary h2 {
+    background-image: url(../../img/_common/logo-web.png);
+    width: 130px;
+    height: 30px;
+    overflow: hidden;
+    text-indent: -1000em;
+    padding: 0;
+    margin: 8px 0 0;
+    display: inline-block;
+}
+
+header #secondary form {
+    display: inline-block;
+}
+
+header #secondary p.profile {
+    display: inline-block;
+    float: right;
+}
+
+header #secondary p.profile a {
+    display: block;
+    color: #7DBA00;
+    text-align: right;
+}
+
+/*********************************************************************************************************************/
+header #main {
+    padding: 10px 0;
+    background-color: #4A494D;
+    overflow: hidden;
+}
+
+header #main ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+header #main ul li {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+/*********************************************************************************************************************/
+#contextual-menu {
+    text-align: right;
+}
+
+/*********************************************************************************************************************/
+#last-update-block {
+    text-align: right;
+}
+
+/*********************************************************************************************************************/

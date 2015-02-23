@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block head_title %}{% endblock %} - Raggam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include '_common/css.twig' %}
+    {% block style_block %}{% endblock %}
+    <link rel="icon" type="image/png" href="/template/custom/img/_common/favicon.png">
+</head>
+<body class="col-xs-12">
+<header>
+    {% include '_common/header.twig' %}
+</header>
+<main>
+    <div id="wrapper">
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="row">
+                <div id="contextual-menu" class="col-lg-12">
+                    {% block contextual_menu %}{% endblock %}
+                </div>
+            </div>
+            {% block main_content %}{% endblock %}
+        </div>
+    </div>
+</main>
+{% include '_common/js.twig' %}
+{% block javascript_block %}{% endblock %}
+</body>
+</html>

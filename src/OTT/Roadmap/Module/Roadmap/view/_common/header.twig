@@ -1,0 +1,41 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div id="secondary">
+        <div class="col-lg-8 col-lg-offset-2 alternative">
+            <a href="{{ url('index') }}">
+                <h2>Raggam</h2>
+            </a>
+
+            <p class="profile">
+                {% trans %}Welcome {% endtrans %} {{ current_user.getFirstname() }} :)
+                <a href="{{ url('logout') }}"><i class="fa fa-fw fa-power-off"></i> {% trans %}Logout{% endtrans %}</a>
+            </p>
+        </div>
+    </div>
+
+    <div id="main">
+        <div class="col-lg-8 col-lg-offset-2">
+            <ul class="nav-content">
+                <li{% if current_route_family == 'index' %} class="current"{% endif %}>
+                    <a href="{{ url('index') }}">
+                        <i class="fa fa-fw fa-home"></i>
+                    </a>
+                </li>
+                <li{% if current_route_family == 'documents' %} class="current"{% endif %}>
+                    <a href="{{ url('documents') }}">
+                        {% trans %}Documents{% endtrans %}
+                    </a>
+                </li>
+                <li{% if current_route_family == 'settings' %} class="current"{% endif %}>
+                    <a href="{{ url('settings') }}">
+                        {% trans %}Setting sets{% endtrans %}
+                    </a>
+                </li>
+                <li{% if current_route_family == 'account' %} class="current"{% endif %}>
+                    <a href="{{ url('account') }}">
+                        {% trans %}Account{% endtrans %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,71 @@
+{% extends '_layout/master.twig' %}
+
+{% block head_title %}
+    {% trans %}
+    Setting sets
+    {% endtrans %}
+{% endblock %}
+
+{% block contextual_menu %}
+    <p class="new">
+        <a href="{{ url('settings.new') }}" class="btn btn-primary btn-sm">
+            <i class="fa fa-fw fa-plus-circle"></i>
+            {% trans %}New setting set{% endtrans %}
+        </a>
+    </p>
+{% endblock %}
+
+{% block main_content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>{% trans %}Setting sets{% endtrans %}</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped datatable">
+                        <thead>
+                        <tr>
+                            <th>{% trans %}Name{% endtrans %}</th>
+                            <th>{% trans %}Last update{% endtrans %}</th>
+                            <th class="actions"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if settings is defined %}
+                            {% for setting in settings %}
+                                <tr>
+                                    <td>{{ setting.getName() }}</td>
+                                    <td>{{ setting.getDateUpdate()|date('Y/m/d H:i:s') }}</td>
+                                    <td class="actions">
+                                        <a href="{{ url('settings.duplicate', {'id':setting.id}) }}"
+                                           data-toggle="tooltip"
+                                           title="{% trans %}Duplicate{% endtrans %} {{ setting.getName() }}">
+                                            <i class="fa fa-fw fa-files-o action"></i>
+                                        </a>
+                                        <a href="{{ url('settings.edit', {'id':setting.id}) }}"
+                                           data-toggle="tooltip"
+                                           title="{% trans %}Edit{% endtrans %} {{ setting.getName() }}">
+                                            <i class="fa fa-fw fa-edit action"></i>
+                                        </a>
+                                        <a href="{{ url('settings.delete', {'id':setting.id}) }}"
+                                           data-toggle="modal" data-target=".modal"
+                                           title="{% trans %}Delete{% endtrans %} {{ setting.getName() }}">
+                                            <i class="fa fa-fw fa-trash-o action"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include '_common/modal/confirm.twig'
+    with {modal: {title:'Deleting setting', message:'Are you sure you want to delete that setting ?' }} %}
+{% endblock %}
+
+{% block style_block %}{% include '_common/css-datatable.twig' %}{% endblock %}
+{% block javascript_block %}{% include '_common/js-datatable.twig' %}{% endblock %}

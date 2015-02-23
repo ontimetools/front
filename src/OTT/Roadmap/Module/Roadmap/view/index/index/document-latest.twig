@@ -1,0 +1,37 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>{% trans %}Latest documents{% endtrans %}</h3>
+
+        <p class="right hidden-xs">
+            <a href="{{ url('documents.new') }}" class="btn btn-xs btn-primary">
+                <i class="fa fa-fw fa-plus-circle"></i>
+                {% trans %}New document{% endtrans %}
+            </a>
+            <a href="{{ url('documents') }}" class="btn btn-xs btn-info">
+                <i class="fa fa-fw fa-eye"></i>
+                {% trans %}See all{% endtrans %}
+            </a>
+        </p>
+    </div>
+    <div class="panel-body">
+        {% if latest_documents is defined %}
+            <ul>
+                {% for document in latest_documents %}
+                    {% include 'index/index/document-row.twig' with {document:document} %}
+                {% endfor %}
+            </ul>
+            <p class="browse">
+                <a href="{{ url('documents.latest') }}" class="btn btn-info btn-sm">
+                    {% trans %}More{% endtrans %}
+                    <i class="fa fa-fw fa-ellipsis-h"></i>
+                </a>
+            </p>
+        {% else %}
+            <p>
+                {% trans %}
+                There is no consulted document associated to your account
+                {% endtrans %}
+            </p>
+        {% endif %}
+    </div>
+</div>

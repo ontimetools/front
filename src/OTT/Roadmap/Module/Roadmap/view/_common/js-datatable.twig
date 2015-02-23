@@ -1,0 +1,35 @@
+<script src="/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var datatable = $('.datatable').DataTable({
+            language: {
+                "emptyTable": {% trans %}"No data available in table"{% endtrans %},
+                "info": {% trans %}"Entries _START_ to _END_ (of _TOTAL_)"{% endtrans %},
+                "infoEmpty": {% trans %}"Showing 0 to 0 of 0 entries"{% endtrans %},
+                "infoFiltered": {% trans %}"(filtered from _MAX_ total entries)"{% endtrans %},
+                "infoPostFix": {% trans %}""{% endtrans %},
+                "thousands": {% trans %}" "{% endtrans %},
+                "lengthMenu": {% trans %}"Show _MENU_ entries"{% endtrans %},
+                "loadingRecords": {% trans %}"Loading..."{% endtrans %},
+                "processing": {% trans %}"Processing..."{% endtrans %},
+                "search": {% trans %}"Search:"{% endtrans %},
+                "zeroRecords": {% trans %}"No matching records found"{% endtrans %},
+                "paginate": {
+                    "first": {% trans %}"First"{% endtrans %},
+                    "last": {% trans %}"Last"{% endtrans %},
+                    "next": {% trans %}"Next"{% endtrans %},
+                    "previous": {% trans %}"Previous"{% endtrans %}
+                },
+                "aria": {
+                    "sortAscending": {% trans %}": activate to sort column ascending"{% endtrans %},
+                    "sortDescending": {% trans %}": activate to sort column descending"{% endtrans %}
+                }
+            },
+            "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, {% trans %}"All"{% endtrans %}]]
+            {% if order is defined %}, "order": [[{{ order.id }}, "{{ order.way }}"]]
+            {% endif %}
+        });
+    });
+</script>

@@ -1,0 +1,10 @@
+<option value="{{ project.getId() }}"
+        {{ (current_project is defined and project.getId() == current_project) ? 'selected="selected"' : '' }}>
+    {% for i in 0..level %}-{% endfor %} {{ project.getName() }}
+</option>
+
+{% if project.getChildren()|length > 0 %}
+    {% for child_project in project.getChildren() %}
+        {% include 'document/form/select-project.twig' with {project:child_project, level:level+1} %}
+    {% endfor %}
+{% endif %}

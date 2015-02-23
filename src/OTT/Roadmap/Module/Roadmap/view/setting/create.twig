@@ -1,0 +1,31 @@
+{% extends '_layout/master.twig' %}
+
+{% block head_title %}
+    {% trans %}
+    New setting
+    {% endtrans %}
+{% endblock %}
+
+{% block contextual_menu %}
+    <p class="new">
+        <a href="{{ url('settings') }}" class="btn btn-primary btn-sm">
+            <i class="fa fa-fw fa-angle-double-left"></i>
+            {% trans %}Back to list{% endtrans %}
+        </a>
+    </p>
+{% endblock %}
+
+{% block main_content %}
+    <div class="row">
+        <div id="latest-documents" class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>{% trans %}Create new setting{% endtrans %}</h3>
+                </div>
+                <div class="panel-body">
+                    {% include 'setting/form/setting.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

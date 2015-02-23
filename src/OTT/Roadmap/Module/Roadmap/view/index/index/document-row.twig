@@ -1,0 +1,18 @@
+<li>
+    <div class="row alternative">
+        <a href="{{ url('documents.read', {'id':document.getId()}) }}">
+            <div class="col-lg-8 name">
+                <h4>{{ document.getName() }}</h4>
+            </div>
+        </a>
+
+        <div class="col-lg-3 last-update">
+            <em>{{ document.getDateUpdate()|date("Y/m/d H:i") }}</em>
+        </div>
+        <div class="col-lg-1 download">
+            <a href="{{ url('documents.download', {'id':document.getId()}) }}">
+                <i class="fa fa-fw fa-cloud-download action"></i>
+            </a>
+        </div>
+    </div>
+</li>

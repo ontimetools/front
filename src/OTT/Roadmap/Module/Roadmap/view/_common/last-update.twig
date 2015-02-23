@@ -1,0 +1,11 @@
+<p id="last-update-block" class="hidden-print">
+    <span class="label label-default">
+        {% trans %}Last update on {% endtrans %}
+        {{ date|date("d/m/Y") }}
+        {% trans %}at {% endtrans %}
+        {{ date|date("H:i:s") }}
+        {% if user_id is defined %}
+            ({% trans %}user{% endtrans %} #{{ user_id }})
+        {% endif %}
+    </span>
+</p>

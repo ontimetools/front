@@ -1,0 +1,236 @@
+{% set document_is_defined = document is defined %}
+<div class="alert alert-info alternative" role="alert">
+    <i class="fa fa-fw fa-exclamation-circle"></i>
+    {% trans %}We are, currently, not checking the relevance of your selection. You might have no result.{% endtrans %}
+    <strong>
+        {% trans %}But do not worry, it will be available very soon.{% endtrans %}
+        <i class="fa fa-fw fa-smile-o"></i>
+    </strong>
+
+</div>
+
+<form id="document_form" class="form-horizontal" method="post"
+      action="{{ document_is_defined ? url('documents.editPost', {id:document.getId()}) : url('documents.newPost') }}">
+{% if document_is_defined %}
+    <div class="form-group">
+        <label for="name" class="col-xs-12 col-lg-3 control-label">
+            {% trans %}Owner{% endtrans %}
+        </label>
+
+        <p class="col-xs-12 col-lg-9">
+            <input type="text" disabled="disabled" readonly="readonly" class="form-control"
+                   value="#{{ document_is_defined ? document.getOtAuthorId() : '' }}"/>
+        </p>
+    </div>
+{% endif %}
+<div class="form-group">
+    <label for="name" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Name{% endtrans %}
+    </label>
+
+    <p class="col-xs-12 col-lg-9">
+        <input type="text" id="name" name="name" class="form-control"
+               value="{{ document_is_defined ? document.getName() : '' }}" required/>
+    </p>
+</div>
+<div class="form-group">
+    <label for="keywords" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Keywords{% endtrans %}
+        <i class="fa fa-fw fa-info-circle" data-toggle="tooltip"
+           title="{% trans %}Please separate your keywords by commas{% endtrans %}"></i>
+    </label>
+
+    <p class="col-xs-12 col-lg-9">
+        <input type="text" id="keywords" name="keywords" class="form-control"
+               value="{{ document_is_defined ? document.getKeywords() : '' }}" required/>
+    </p>
+</div>
+<div class="form-group">
+    <label for="public" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Is the document public ?{% endtrans %}
+        <i class="fa fa-fw fa-info-circle" data-toggle="tooltip"
+           title="{% trans %}The public documents are viewable by every user on your OnTime account{% endtrans %}">
+        </i>
+    </label>
+
+    <p class="col-xs-12 col-lg-9">
+        <input type="radio" name="public" value="1" id="public_true"
+                {{ document_is_defined and document.isPrivate() ? '"' : 'checked="checked' }} />
+        <label for="public_true" class="control-label">
+            {% trans %}Yes{% endtrans %}
+        </label>
+
+        <input type="radio" name="public" value="0" id="public_false"
+                {{ document_is_defined and document.isPrivate() ? 'checked="checked' : '' }} />
+        <label for="public_false" class="control-label">
+            {% trans %}No{% endtrans %}
+        </label>
+    </p>
+</div>
+<div class="form-group">
+    <label for="setting_id" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Settings{% endtrans %}
+    </label>
+
+    <p class="col-xs-12 col-lg-9">
+        <a class="refresher btn btn-xs btn-default" data-target="setting_id">
+            <i class="fa fa-fw fa-refresh fa-spin"></i>
+        </a>
+        <select name="setting_id" id="setting_id" data-type="ajax-settings"
+                data-current="{{ document_is_defined ? document.getSettingId() : '' }}">
+        </select>
+        <a href="{{ url('settings.new') }}" class="btn btn-xs btn-primary" target="_blank">
+            <i class="fa fa-fw fa-plus-circle"></i>
+            {% trans %}Create new setting{% endtrans %}
+        </a>
+        <i class="fa fa-fw fa-info-circle" data-toggle="tooltip"
+           title="{% trans %}Opens in another window ;){% endtrans %}">
+        </i>
+    </p>
+</div>
+{#----------------------------------------------------------------------------------------------------------------#}
+<hr/>
+{#----------------------------------------------------------------------------------------------------------------#}
+<div class="form-group">
+    <label for="ot_project_id" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}OnTime project{% endtrans %}
+    </label>
+
+    <p class="col-xs-12 col-lg-9">
+        <a class="refresher btn btn-xs btn-default" data-target="ot_project_id">
+            <i class="fa fa-fw fa-refresh fa-spin"></i>
+        </a>
+        <select name="ot_project_id" id="ot_project_id" data-type="ajax-projects"
+                data-current="{{ document_is_defined ? document.getOtProjectId() : '' }}">
+            <option value="">{% trans %}All{% endtrans %}</option>
+        </select>
+    </p>
+</div>
+<div class="form-group">
+    <label for="ot_release_id" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}OnTime release{% endtrans %}
+    </label>
+
+    <p class="col-xs-12 col-lg-9">
+        <a class="refresher btn btn-xs btn-default" data-target="ot_release_id">
+            <i class="fa fa-fw fa-refresh fa-spin"></i>
+        </a>
+        <select name="ot_release_id" id="ot_release_id" data-type="ajax-releases"
+                data-current="{{ document_is_defined ? document.getOtReleaseId() : '' }}">
+            <option value="">{% trans %}All{% endtrans %}</option>
+        </select>
+    </p>
+</div>
+<div class="form-group">
+    <label for="date_start" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Start date{% endtrans %}
+    </label>
+
+    <p class="col-xs-12 col-lg-9">
+        <input type="text" id="date_start" name="date_start" class="form-control" placeholder="yyyy-mm-dd"
+               value="{{ document_is_defined ? document.getDateBegin()|date("Y-m-d") : '' }}" required/>
+    </p>
+</div>
+<div class="form-group">
+    <label for="date_due" class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Due date{% endtrans %}
+    </label>
+
+    <p class="col-xs-12 col-lg-9">
+        <input type="text" id="date_due" name="date_due" class="form-control" placeholder="yyyy-mm-dd"
+               value="{{ document_is_defined ? document.getDateEnd()|date("Y-m-d") : '' }}" required/>
+    </p>
+</div>
+<div class="form-group">
+    <div class="col-xs-12 col-lg-9 col-lg-offset-3">
+        <p class="alert alert-info" role="alert">
+            <i class="fa fa-fw fa-exclamation-circle"></i>
+            {% trans %}
+            Raggam automatically gets the release <strong>Type</strong> and <strong>Status</strong> from OnTime
+            when release is specified.
+            {% endtrans %}
+        </p>
+    </div>
+</div>
+{#----------------------------------------------------------------------------------------------------------------#}
+<hr/>
+{#----------------------------------------------------------------------------------------------------------------#}
+<div class="form-group">
+    <label class="col-xs-12 col-lg-3 control-label">
+        {% trans %}Element types{% endtrans %}
+    </label>
+
+    <ul class="col-xs-12 col-lg-9 inline">
+        <li>
+            <input type="checkbox" name="ontime_type_features" id="ontime_type_features" value="features"/>
+            <label for="ontime_type_features">{% trans %}Features{% endtrans %}</label>
+        </li>
+        <li>
+            <input type="checkbox" name="ontime_type_defects" id="ontime_type_defects" value="defects"/>
+            <label for="ontime_type_defects">{% trans %}Defects{% endtrans %}</label>
+        </li>
+        <li>
+            <input type="checkbox" name="ontime_type_tasks" id="ontime_type_tasks" value="tasks"/>
+            <label for="ontime_type_tasks">{% trans %}Tasks{% endtrans %}</label>
+        </li>
+        <li>
+            <input type="checkbox" name="ontime_type_incidents" id="ontime_type_incidents" value="incidents"/>
+            <label for="ontime_type_incidents">{% trans %}Incidents{% endtrans %}</label>
+        </li>
+    </ul>
+</div>
+{% if document_is_defined %}
+    <div class="form-group">
+        <label for="date_due" class="col-xs-12 col-lg-3 control-label">
+            {% trans %}Type of action{% endtrans %}
+        </label>
+
+        <p class="col-xs-12 col-lg-1">
+            <input type="text" id="date_due" name="date_due" class="form-control"/>
+        </p>
+
+        <div class="col-xs-12 col-lg-8">
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    <li>
+                        <strong>1</strong> :
+                        {% trans %}Update <u>existing elements</u> of selected types (do not add new ones).{% endtrans %}
+                    </li>
+                    <li>
+                        <strong>2</strong> :
+                        {% trans %}Add <u>new elements</u> of selected types (do not update existing ones).{% endtrans %}
+                    </li>
+                    <li>
+                        <strong>3</strong> : {% trans %}Action #1 and action #2 combined{% endtrans %}
+                    </li>
+                </ul>
+                <hr/>
+
+                <i class="fa fa-fw fa-exclamation-triangle"></i>
+                {% trans %}
+                For security reasons, please type the action number you want to proceed (actions are irreversible).
+                Any other typing than those numbers (or empty field) will not affect actual entries.
+                Those actions might take time.
+                {% endtrans %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+{#----------------------------------------------------------------------------------------------------------------#}
+<hr/>
+{#----------------------------------------------------------------------------------------------------------------#}
+<div class="form-group">
+    {% if document_is_defined %}
+        {% include '_common/form/buttons.twig' with {cancel_url:url('documents'),
+        delete_route:url('documents.delete', {id:document.getId()})} %}
+    {% else %}
+        {% include '_common/form/buttons.twig' with {cancel_url:url('documents')} %}
+    {% endif %}
+</div>
+</form>
+{% if document_is_defined %}
+    {% include '_common/last-update.twig' with {date:document.getDateUpdate(), user_id:document.getOtUpdaterId()} %}
+
+    {% include '_common/modal/confirm.twig' with {modal: {
+    title:'Deleting document', message:'Are you sure you want to delete that document ?' }} %}
+    {% endif %}

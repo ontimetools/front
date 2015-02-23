@@ -1,0 +1,10 @@
+<option value="{{ release.getId() }}"
+        {{ (current_release is defined and release.getId() == current_release) ? 'selected="selected"' : '' }}>
+    {% for i in 0..level %}-{% endfor %} {{ release.getName() }}
+</option>
+
+{% if release.getChildren()|length > 0 %}
+    {% for child_release in release.getChildren() %}
+        {% include 'document/form/select-release.twig' with {release:child_release, level:level+1} %}
+    {% endfor %}
+{% endif %}

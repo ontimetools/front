@@ -1,0 +1,50 @@
+/*********************************************************************************************************************/
+.element-list ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.element-list ul li:nth-child(odd) {
+    background-color: #eee;
+}
+
+.element-list ul li:nth-child(even) {
+    background-color: #fefefe;
+}
+
+.element-list ul li {
+    padding: 5px;
+}
+
+.element-list ul li h4 {
+    display: inline-block;
+    margin: 0;
+}
+
+.element-list ul li .last-update {
+    font-size: .8em;
+}
+
+.element-list ul li .download {
+    text-align: right;
+}
+
+.element-list p.browse {
+    text-align: center;
+    margin:10px 0 0;
+}
+
+/*********************************************************************************************************************/
+#favourite-documents h3 i ,
+#favourite-projects h3 i {
+    color: #FCBD2C;
+}
+
+/*********************************************************************************************************************/
+#latest-documents h3 ,
+#latest-projects h3 {
+    display: inline-block;
+}
+
+/*********************************************************************************************************************/

@@ -1,0 +1,18 @@
+{% extends '_layout/master.twig' %}
+
+{% block head_title %}
+    {% trans %}
+    Dashboard
+    {% endtrans %}
+{% endblock %}
+
+{% block main_content %}
+    <div class="row">
+        <div id="latest-documents" class="col-lg-6 element-list">
+            {% include 'index/index/document-latest.twig' %}
+        </div>
+        <div id="favourite-documents" class="col-lg-6 element-list">
+            {% include 'index/index/document-favourite.twig' %}
+        </div>
+    </div>
+{% endblock %}

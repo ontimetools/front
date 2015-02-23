@@ -1,0 +1,11 @@
+{
+    "name": "ontimetools/roadmap",
+    "version": "v1.0.0",
+    "dependencies": {
+        "datatables": "1.10.4",
+        "datatables-bootstrap-3": "0.0.0",
+        "bootstrap": "3.3.1",
+        "bootstrap-datepicker": "1.4.0",
+        "components-font-awesome": "4.2.0"
+    }
+}
